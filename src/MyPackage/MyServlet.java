@@ -3,11 +3,6 @@ package MyPackage;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-package MyPackage;
-
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
 import java.util.Scanner;
@@ -30,9 +25,11 @@ public class MyServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String city = request.getParameter("city");
         
-        // ⚠️ REPLACE THIS WITH YOUR REAL API KEY
+        // ------------------------------------------------------------------
+        // 👇 PASTE YOUR OPENWEATHERMAP API KEY INSIDE THE QUOTES BELOW 👇
         String apiKey = "ab056d5abf5c755be575fefc3e929eb8"; 
-        
+        // ------------------------------------------------------------------
+
         String apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey + "&units=metric";
 
         try {
@@ -86,5 +83,4 @@ public class MyServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
-
-} // <--- MAKE SURE YOU COPY THIS LAST CURLY BRACE!
+}
