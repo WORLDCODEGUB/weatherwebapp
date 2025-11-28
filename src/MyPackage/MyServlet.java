@@ -1,6 +1,4 @@
-package MyPackage;
-
-package com.weather;
+package MyPackage; // <--- This MUST match your folder name "MyPackage"
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,39 +17,69 @@ import com.google.gson.JsonObject;
 public class MyServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    public MyServlet() {
+        super();
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 1. Debug: Check if Servlet is reached
-        System.out.println("--- MyServlet has been called! ---");
-        
         String city = request.getParameter("city");
-        String apiKey = "ab056d5abf5c755be575fefc3e929eb8"; // <--- PASTE KEY HERE !!!
+        
+        // PASTE YOUR OPENWEATHERMAP API KEY HERE
+        String apiKey = "ab056d5abf5c755be575fefc3e929eb8"; 
+        
         String apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey + "&units=metric";
 
         try {
             URL url = new URL(apiUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            
-            // 2. Debug: Check API Response Code
+
             int responseCode = connection.getResponseCode();
-            System.out.println("API Response Code: " + responseCode);
 
             if (responseCode == 200) {
+                // Read API Response
                 InputStreamReader reader = new InputStreamReader(connection.getInputStream());
                 Scanner scanner = new Scanner(reader);
                 StringBuilder responseContent = new StringBuilder();
+
                 while (scanner.hasNext()) {
                     responseContent.append(scanner.nextLine());
                 }
                 scanner.close();
 
+                // Parse JSON
                 Gson gson = new Gson();
                 JsonObject jsonObject = gson.fromJson(responseContent.toString(), JsonObject.class);
-                
-                // 3. Debug: Print JSON data
-                System.out.println("Weather Data Found: " + jsonObject.toString());
 
+                // Extract Data
                 double temp = jsonObject.getAsJsonObject("main").get("temp").getAsDouble();
                 int humidity = jsonObject.getAsJsonObject("main").get("humidity").getAsInt();
                 double windSpeed = jsonObject.getAsJsonObject("wind").get("speed").getAsDouble();
-                String weatherCondition = jsonObject.getAsJso
+                String weatherCondition = jsonObject.getAsJsonArray("weather").get(0).getAsJsonObject().get("main").getAsString();
+
+                // Send to JSP
+                request.setAttribute("temperature", Math.round(temp));
+                request.setAttribute("humidity", humidity);
+                request.setAttribute("wind", windSpeed);
+                request.setAttribute("condition", weatherCondition);
+                request.setAttribute("city", city);
+                request.setAttribute("showWeather", true);
+
+            } else {
+                // Handle 404 (City Not Found)
+                request.setAttribute("error", "City not found. Please try again.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Server Error: " + e.getMessage());
+        }
+
+        // Forward back to the page
+        request.getRequestDispatcher("index.jsp").forward(request, response);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
+    }
+}
