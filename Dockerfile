@@ -1,24 +1,35 @@
-# --- Stage 1: Build the Java Application ---
+# --- Stage 1: Build ---
 FROM maven:3.8.5-openjdk-17 AS build
 WORKDIR /app
-COPY . .
+
+# 1. Create the standard Maven folder structure manually
+RUN mkdir -p src/main/java
+RUN mkdir -p src/main/webapp
+
+# 2. Copy pom.xml
+COPY pom.xml .
+
+# 3. MAGIC STEP: Copy your folders to the correct Maven locations
+# Copy your 'src' folder (Java code) to where Maven looks for Java code
+COPY src/ src/main/java/
+
+# Copy your 'WebContent' folder (HTML/JSP) to where Maven looks for Web apps
+COPY WebContent/ src/main/webapp/
+
+# 4. Build the app (Now Maven will find everything)
 RUN mvn clean package
 
-# --- Stage 2: Run Tomcat ---
+# --- Stage 2: Run ---
 FROM tomcat:9.0-jdk17-temurin
 
-# 1. Remove default Tomcat apps
+# Clean existing apps
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-# 2. IMPORTANT FIX: Disable the Tomcat Shutdown Port (8005) 
-# This stops the "Invalid shutdown command" error on Render
+# Fix Render Health Check (Disable Shutdown Port)
 RUN sed -i 's/port="8005"/port="-1"/' /usr/local/tomcat/conf/server.xml
 
-# 3. Copy the WAR file we built in Stage 1
+# Copy the Result
 COPY --from=build /app/target/ROOT.war /usr/local/tomcat/webapps/ROOT.war
 
-# 4. Expose the web port
 EXPOSE 8080
-
-# 5. Start Tomcat
 CMD ["catalina.sh", "run"]
