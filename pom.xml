@@ -11,6 +11,7 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
 
     <dependencies>
@@ -21,7 +22,7 @@
             <version>4.0.1</version>
             <scope>provided</scope>
         </dependency>
-        <!-- GSON for parsing JSON -->
+        <!-- GSON for JSON -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -30,26 +31,6 @@
     </dependencies>
 
     <build>
-    <!-- This tells Maven: "Name the file ROOT.war, not weather-app-1.0.war" -->
-    <finalName>ROOT</finalName>
-    
-    <build>
-    <!-- Name the file ROOT.war -->
-    <finalName>ROOT</finalName>
-    
-    <!-- If your Java files are directly inside a 'src' folder at the root, uncomment the line below: -->
-    <!-- <sourceDirectory>src</sourceDirectory> -->
-
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-            <version>3.3.2</version>
-            <configuration>
-                <!-- ✅ CRITICAL: Tell Maven your HTML/JSP files are here -->
-                <warSourceDirectory>WebContent</warSourceDirectory>
-            </configuration>
-        </plugin>
-    </plugins>
-</build>
+        <finalName>ROOT</finalName>
+    </build>
 </project>
