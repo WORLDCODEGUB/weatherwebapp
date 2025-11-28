@@ -30,13 +30,15 @@
     </dependencies>
 
     <build>
-        <finalName>ROOT</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
-            </plugin>
-        </plugins>
-    </build>
+    <!-- This tells Maven: "Name the file ROOT.war, not weather-app-1.0.war" -->
+    <finalName>ROOT</finalName>
+    
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.3.2</version>
+        </plugin>
+    </plugins>
+</build>
 </project>
