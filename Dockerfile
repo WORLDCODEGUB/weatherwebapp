@@ -1,14 +1,15 @@
-FROM nginx:alpine
+# Stage 1: Build the Java Application using Maven
+FROM maven:3.8.5-openjdk-17 AS build
+WORKDIR /app
+COPY . .
+RUN mvn clean package
 
-# 1. Remove the default Nginx "Welcome" page so it doesn't confuse us
-RUN rm -rf /usr/share/nginx/html/*
+# Stage 2: Run Tomcat
+FROM tomcat:9.0-jdk17-temurin
+# Remove default Tomcat apps
+RUN rm -rf /usr/local/tomcat/webapps/*
+# Copy the WAR file we built in Stage 1
+COPY --from=build /app/target/ROOT.war /usr/local/tomcat/webapps/ROOT.war
 
-# 2. Copy the CONTENTS of the 'WebContent' folder to the Nginx root
-# Note: Ensure you run the docker build command from the folder CONTAINING 'WebContent'
-COPY WebContent/ /usr/share/nginx/html
-
-# 3. Expose port 80
-EXPOSE 80
-
-# 4. Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
