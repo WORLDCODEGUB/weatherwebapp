@@ -18,12 +18,21 @@
 
 	<div class="mainContainer">
 		<!-- Correct Form -->
+<!-- ... inside <div class="mainContainer"> ... -->
+
 <form action="MyServlet" method="GET" class="search">
     <input type="text" name="city" placeholder="Enter city name" required>
-    
-    <!-- MUST be type="submit" -->
     <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
 </form>
+
+<!-- ✅ ADD THIS SECTION TO SEE ERRORS -->
+<% if (request.getAttribute("error") != null) { %>
+    <div style="color: red; text-align: center; margin-top: 10px; font-weight: bold;">
+        <%= request.getAttribute("error") %>
+    </div>
+<% } %>
+
+<!-- ... rest of your weatherDetails div ... -->
 		<div class="weatherDetails">
 			<div class="weatherIcon">
 				<img src="" alt="Clouds" id="weather-icon">
