@@ -17,58 +17,56 @@
 <body>
 
 	<div class="mainContainer">
-		<!-- Correct Form -->
-<!-- ... inside <div class="mainContainer"> ... -->
+    
+    <!-- Form Section -->
+    <form action="MyServlet" method="GET" class="search">
+        <input type="text" name="city" placeholder="Enter city name" required>
+        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </form>
 
-<form action="MyServlet" method="GET" class="search">
-    <input type="text" name="city" placeholder="Enter city name" required>
-    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-</form>
+    <!-- ✅ ERROR DISPLAY BLOCK (Add this!) -->
+    <% if (request.getAttribute("error") != null) { %>
+        <div style="background-color: #ffdddd; color: #a00000; padding: 10px; margin: 10px 0; border-radius: 5px; text-align: center;">
+            <strong>Error:</strong> <%= request.getAttribute("error") %>
+        </div>
+    <% } %>
 
-<!-- ✅ ADD THIS SECTION TO SEE ERRORS -->
-<% if (request.getAttribute("error") != null) { %>
-    <div style="color: red; text-align: center; margin-top: 10px; font-weight: bold;">
-        <%= request.getAttribute("error") %>
+    <!-- Weather Details Section -->
+    <% if (request.getAttribute("city") != null) { %>
+    <div class="weatherDetails">
+        <!-- ... (Keep your existing weather details code here) ... -->
+        <div class="weatherIcon">
+            <img src="" alt="Clouds" id="weather-icon">
+            <h2>${temperature}°C</h2>
+            <input type="hidden" id="wc" value="${weatherCondition}"> </input>
+        </div>
+        
+        <div class="cityDetails">
+            <div class="desc"><strong>${city}</strong></div>
+            <div class="date">${date}</div>
+        </div>
+
+        <div class="windDetails">
+            <!-- ... Keep your humidity and wind code here ... -->
+             <div class="humidityBox">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhgr7XehXJkOPXbZr8xL42sZEFYlS-1fQcvUMsS2HrrV8pcj3GDFaYmYmeb3vXfMrjGXpViEDVfvLcqI7pJ03pKb_9ldQm-Cj9SlGW2Op8rxArgIhlD6oSLGQQKH9IqH1urPpQ4EAMCs3KOwbzLu57FDKv01PioBJBdR6pqlaxZTJr3HwxOUlFhC9EFyw/s320/thermometer.png" alt="Humidity">
+                <div class="humidity">
+                    <span>Humidity</span>
+                    <h2>${humidity}%</h2>
+                </div>
+            </div>
+            <div class="windSpeed">
+                 <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiyaIguDPkbBMnUDQkGp3wLRj_kvd_GIQ4RHQar7a32mUGtwg3wHLIe0ejKqryX8dnJu-gqU6CBnDo47O7BlzCMCwRbB7u0Pj0CbtGwtyhd8Y8cgEMaSuZKrw5-62etXwo7UoY509umLmndsRmEqqO0FKocqTqjzHvJFC2AEEYjUax9tc1JMWxIWAQR4g/s320/wind.png">
+                 <div class="wind">
+                    <span>Wind Speed</span>
+                    <h2>${windSpeed} km/h</h2>
+                 </div>
+            </div>
+        </div>
     </div>
-<% } %>
+    <% } %>
 
-<!-- ... rest of your weatherDetails div ... -->
-		<div class="weatherDetails">
-			<div class="weatherIcon">
-				<img src="" alt="Clouds" id="weather-icon">
-				<h2>${temperature}°C</h2>
-				<input type="hidden" id="wc" value="${weatherCondition}"> </input>
-			</div>
-
-			<div class="cityDetails">
-				<div class="desc">
-					<strong>${city}</strong>
-				</div>
-				<div class="date">${date}</div>
-			</div>
-			<div class="windDetails">
-				<div class="humidityBox">
-					<img
-						src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhgr7XehXJkOPXbZr8xL42sZEFYlS-1fQcvUMsS2HrrV8pcj3GDFaYmYmeb3vXfMrjGXpViEDVfvLcqI7pJ03pKb_9ldQm-Cj9SlGW2Op8rxArgIhlD6oSLGQQKH9IqH1urPpQ4EAMCs3KOwbzLu57FDKv01PioBJBdR6pqlaxZTJr3HwxOUlFhC9EFyw/s320/thermometer.png"
-						alt="Humidity">
-					<div class="humidity">
-						<span>Humidity </span>
-						<h2>${humidity}%</h2>
-					</div>
-				</div>
-
-				<div class="windSpeed">
-					<img
-						src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiyaIguDPkbBMnUDQkGp3wLRj_kvd_GIQ4RHQar7a32mUGtwg3wHLIe0ejKqryX8dnJu-gqU6CBnDo47O7BlzCMCwRbB7u0Pj0CbtGwtyhd8Y8cgEMaSuZKrw5-62etXwo7UoY509umLmndsRmEqqO0FKocqTqjzHvJFC2AEEYjUax9tc1JMWxIWAQR4g/s320/wind.png">
-					<div class="wind">
-						<span>Wind Speed</span>
-						<h2>${windSpeed} km/h</h2>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
+</div>
 
 	<script src="myScript.js">
 		  </script>
