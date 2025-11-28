@@ -17,13 +17,13 @@
 <body>
 
 	<div class="mainContainer">
-		<form action="MyServlet" method="post" class="searchInput">
-			<input type="text" placeholder="Enter City Name" id="searchInput"
-				value="" name="city" />
-			<button id="searchButton">
-				<i class="fa-solid fa-magnifying-glass"></i>
-			</button>
-		</form>
+		<!-- Correct Form -->
+<form action="MyServlet" method="GET" class="search">
+    <input type="text" name="city" placeholder="Enter city name" required>
+    
+    <!-- MUST be type="submit" -->
+    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+</form>
 		<div class="weatherDetails">
 			<div class="weatherIcon">
 				<img src="" alt="Clouds" id="weather-icon">
