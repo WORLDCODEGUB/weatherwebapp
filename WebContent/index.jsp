@@ -19,10 +19,11 @@
 	<div class="mainContainer">
     
     <!-- Form Section -->
-    <form action="MyServlet" method="GET" class="search">
-        <input type="text" name="city" placeholder="Enter city name" required>
-        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-    </form>
+    <!-- The action must match the <url-pattern> in web.xml -->
+<form action="./MyServlet" method="GET" class="search">
+    <input type="text" name="city" placeholder="Enter city name" required>
+    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+</form>
 
     <!-- ✅ ERROR DISPLAY BLOCK (Add this!) -->
     <% if (request.getAttribute("error") != null) { %>
